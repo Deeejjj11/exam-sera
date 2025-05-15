@@ -35,15 +35,15 @@
         <div class="col-lg-6">
             <div class="mb-3">
                 <div class="card shadow-sm">
-                    <div class="card-header bg-transparent fw-bold py-2">Bookings Per Month</div>
-                    <div class="card-body"><canvas id="bookingsChart" height="200"></canvas></div>
+                    <div class="card-header bg-transparent fw-bold py-3">Bookings Per Month</div>
+                    <div class="card-body"><canvas id="bookingsChart" height="100"></canvas></div>
                 </div>
             </div>
            <div>
     <div class="card shadow-sm">
         <div class="card-header bg-transparent fw-bold py-2">Room Status Distribution</div>
         <div class="card-body text-center">
-            <canvas id="roomStatusChart" style="width: 100%; height: 200px;"></canvas>
+            <canvas id="roomStatusChart" style="width: 40%; height: 40%;"></canvas>
         </div>
     </div>
 </div>
@@ -71,20 +71,34 @@
         options: { responsive: true, scales: { y: { beginAtZero: true } } }
     });
 
+
     new Chart(document.getElementById('roomStatusChart'), {
-        type: 'pie',
-        data: {
-            labels: {!! json_encode(array_keys($roomStatusDistribution)) !!},
-            datasets: [{
-                data: {!! json_encode(array_values($roomStatusDistribution)) !!},
-                backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
-                borderColor: '#fff', borderWidth: 1
-            }]
+    type: 'bar',
+    data: {
+        labels: {!! json_encode(array_keys($roomStatusDistribution)) !!},
+        datasets: [{
+            label: 'Room Count',
+            data: {!! json_encode(array_values($roomStatusDistribution)) !!},
+            backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
+            borderColor: '#fff',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        scales: {
+            x: { beginAtZero: true }
         },
-        options: {
-            responsive: true,
-            plugins: { legend: { position: 'bottom' } }
+        plugins: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: 'Room Status Distribution'
+            }
         }
-    });
+    }
+});
+
 </script>
 @endsection
